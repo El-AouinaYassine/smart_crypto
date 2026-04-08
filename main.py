@@ -1,5 +1,5 @@
 import requests
-
+import numpy as np
 url = "https://api.binance.com/api/v3/klines"
 
 params = {
@@ -9,10 +9,11 @@ params = {
 }
 response = requests.get(url, params=params)
 
-data = response.json()
-
+data =np.array(response.json())
+data=data[:,0:6]
+attributes = ['open time','o','h','l','c','v']
 for i,candle in enumerate(data):
     print("=====")
     print(f"c{i}")
-    for att in candle:
-        print(f"->{att}")
+    for i,att in enumerate(candle):
+        print(f"[{attributes[i]}]->[{att}]")
